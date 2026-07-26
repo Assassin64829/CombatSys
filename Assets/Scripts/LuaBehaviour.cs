@@ -18,6 +18,7 @@ public class LuaBehaviour : MonoBehaviour
     private Action<LuaTable> luaFixedUpdate;
     private Action<LuaTable> luaLateUpdate;
     private Action<LuaTable> luaOnDestroy;
+    private LuaFunction onTriggerEnter;
 
     void Awake()
     {
@@ -50,8 +51,19 @@ public class LuaBehaviour : MonoBehaviour
                 luaLateUpdate = luaTable.Get<Action<LuaTable>>("LateUpdate");
                 luaOnDestroy = luaTable.Get<Action<LuaTable>>("OnDestroy");
 
+                // 绑定触发事件
+                onTriggerEnter = luaTable.Get<LuaFunction>("OnTriggerEnter");
+
                 luaAwake?.Invoke(luaTable);
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (onTriggerEnter != null)
+        {
+            onTriggerEnter.Call(luaTable, other);
         }
     }
 
