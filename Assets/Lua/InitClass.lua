@@ -25,6 +25,7 @@ LayerMask = CS.UnityEngine.LayerMask
 CharacterController = CS.UnityEngine.CharacterController
 Animator = CS.UnityEngine.Animator
 Camera = CS.UnityEngine.Camera
+Collider = CS.UnityEngine.Collider
 
 -- 图集对象类
 SpriteAtlas = CS.UnityEngine.U2D.SpriteAtlas

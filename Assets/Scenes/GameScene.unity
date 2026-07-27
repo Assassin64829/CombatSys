@@ -122,6 +122,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &15816987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1181105537100868003, guid: 8df8314d8dafb1c4abf1690a294f1891, type: 3}
+  m_PrefabInstance: {fileID: 7083650101534333308}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &133826400
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +173,11 @@ Transform:
   - {fileID: 2066822669}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &207472068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 619621306320809639, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+  m_PrefabInstance: {fileID: 6996142596503969442}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +378,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   luaScript: CameraController
+  attacks: []
+  injectObjects: []
 --- !u!4 &1151317612 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3483604623307721557, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
@@ -880,6 +892,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   luaScript: MeeleFighter
+  attacks: []
+  injectObjects:
+  - {fileID: 15816987}
 --- !u!1001 &6996142596503969442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -917,6 +932,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 619621306320809639, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: m_Name
+      value: Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 619621306320809639, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
@@ -942,6 +961,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 816779239972819430, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
       propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 937996273708194814, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 937996273708194814, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1018776142014966074, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
@@ -1236,6 +1263,34 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8109758824761993992, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: attacks.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109758824761993992, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: attacks.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 76ffc4c4690354d4f8797cb6eadb93e4, type: 2}
+    - target: {fileID: 8109758824761993992, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: attacks.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 62608c272bb26ba4aa2286f14b89e995, type: 2}
+    - target: {fileID: 8109758824761993992, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: attacks.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 832c9b9e1afcc134082455e326f6ab77, type: 2}
+    - target: {fileID: 8109758824761993992, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: injectObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8109758824761993992, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: injectObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 207472068}
+    - target: {fileID: 8109758824761993992, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
+      propertyPath: injectObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 207472068}
     - target: {fileID: 8316635107363946879, guid: 8b4a3e89682093842aff8bb5817e36d4, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1289,6 +1344,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 133826402}
     m_Modifications:
+    - target: {fileID: 1181105537100868003, guid: 8df8314d8dafb1c4abf1690a294f1891, type: 3}
+      propertyPath: m_Name
+      value: Weapon
+      objectReference: {fileID: 0}
     - target: {fileID: 1181105537100868003, guid: 8df8314d8dafb1c4abf1690a294f1891, type: 3}
       propertyPath: m_TagString
       value: Hitbox

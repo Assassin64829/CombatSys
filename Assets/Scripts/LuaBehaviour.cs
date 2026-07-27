@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using XLua;
+using System.Collections.Generic;
 
 /// <summary>
 /// Lua生命周期桥接组件：挂在需要Update/FixedUpdate等生命周期的GameObject上
@@ -10,6 +11,12 @@ public class LuaBehaviour : MonoBehaviour
 {
     [Tooltip("Lua模块名，如 CameraController")]
     public string luaScript;
+
+    // 注入Scriptable数据
+    [SerializeField]List<AttackData> attacks;
+
+    // 注入其他GameObject
+    [SerializeField]List<GameObject> injectObjects;
 
     private LuaTable luaTable;
     private Action<LuaTable> luaAwake;
@@ -42,6 +49,15 @@ public class LuaBehaviour : MonoBehaviour
                 // 把C#侧的transform和gameObject注入给Lua
                 luaTable.Set("transform", transform);
                 luaTable.Set("gameObject", gameObject);
+
+                // 注入Scriptable
+                luaTable.Set("attacks", attacks);
+
+                // 注入其他GameObject
+                foreach(var obj in injectObjects)
+                {
+                    luaTable.Set(obj.name, obj);
+                }
 
                 // 绑定生命周期函数（Lua中可选实现）
                 luaAwake = luaTable.Get<Action<LuaTable>>("Awake");

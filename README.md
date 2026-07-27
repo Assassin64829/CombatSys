@@ -35,6 +35,21 @@ function Object:new()
 end
 ```
 
+状态类模拟继承，在State基类基础上拓展多状态类功能
+
+```lua
+function Object:subClass(className)
+	--根据名字生成一张表 就是一个类
+	_G[className] = {}
+	local obj = _G[className]
+	--设置自己的“父类”
+	obj.base = self
+	--给子类设置元表 以及 __index
+	self.__index = self
+	setmetatable(obj, self)
+end
+```
+
 
 
 ### 战斗部分

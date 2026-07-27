@@ -32,6 +32,14 @@ end
 
 function PlayerController:Update()
 
+    -- 攻击时禁止移动
+    if self.MeeleFighter.IsAction then
+
+        self.targetRotation = self.transform.rotation
+        self.animator:SetFloat("forwardSpeed", 0)
+        return
+    end
+
     local h = Input.GetAxis("Horizontal")
     local v = Input.GetAxis("Vertical")
     local moveAmount = Mathf.Clamp01(Mathf.Abs(h) + Mathf.Abs(v))
