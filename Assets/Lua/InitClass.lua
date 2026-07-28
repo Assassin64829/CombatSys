@@ -3,6 +3,7 @@ require("Base.Object") -- lua面向对象实现
 require("Base.SplitTools") -- 字符串分割方法
 require("Base.LuaCoMgr") -- 封装协程
 Json = require("Base.JsonUtility") -- Json数据持久化
+require("StateMachine") -- 状态机类
 
 -- 脚本
 ABMgr = CS.ABMgr.GetInstance()
@@ -26,6 +27,7 @@ CharacterController = CS.UnityEngine.CharacterController
 Animator = CS.UnityEngine.Animator
 Camera = CS.UnityEngine.Camera
 Collider = CS.UnityEngine.Collider
+NavMeshAgent= CS.UnityEngine.AI.NavMeshAgent
 
 -- 图集对象类
 SpriteAtlas = CS.UnityEngine.U2D.SpriteAtlas

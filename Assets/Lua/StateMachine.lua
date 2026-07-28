@@ -1,7 +1,7 @@
 StateMachine = {}
 
 StateMachine.currentState = nil
-StateMachine.owner = nil
+StateMachine.owner = nil -- EnemyController对象
 
 function StateMachine:new(owner)
     local obj = {}
@@ -31,5 +31,3 @@ function StateMachine:Execute()
         self.currentState:Execute()
     end
 end
-
-return StateMachine

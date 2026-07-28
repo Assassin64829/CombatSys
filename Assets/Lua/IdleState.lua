@@ -1,5 +1,5 @@
 State:subClass("IdleState")
--- 状态基类
+
 function IdleState:Enter(owner)
     self.base.Enter(self, owner)
 end
