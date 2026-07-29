@@ -1,23 +1,23 @@
 --面向对象实现 
---万物之父 所有对象的基类 Object
---封装
 Object = {}
---实例化方法
+
+-- 表需要再new中初始化
+-- 值类型（number、string、boolean 等）没有"修改自身"的操作，改变它们只能通过重新赋值，因此会在实例上创建（或覆盖）字段
+-- 而 table 是可变对象，既可以重新赋值，也可以直接修改内部内容，因此如果共享同一张表，就会影响所有实例
+
+--实例化
 function Object:new()
 	local obj = {}
-	--给空对象设置元表 以及 __index
 	self.__index = self
 	setmetatable(obj, self)
 	return obj
 end
+
 --继承
 function Object:subClass(className)
-	--根据名字生成一张表 就是一个类
 	_G[className] = {}
 	local obj = _G[className]
-	--设置自己的“父类”
 	obj.base = self
-	--给子类设置元表 以及 __index
 	self.__index = self
 	setmetatable(obj, self)
 end

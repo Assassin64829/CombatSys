@@ -4,6 +4,9 @@ require("Base.SplitTools") -- 字符串分割方法
 require("Base.LuaCoMgr") -- 封装协程
 Json = require("Base.JsonUtility") -- Json数据持久化
 require("StateMachine") -- 状态机类
+require("AttackState") -- Player状态枚举
+require("EnemyState") -- 敌人状态枚举
+require("State") -- 敌人状态枚举
 
 -- 脚本
 ABMgr = CS.ABMgr.GetInstance()
@@ -28,6 +31,7 @@ Animator = CS.UnityEngine.Animator
 Camera = CS.UnityEngine.Camera
 Collider = CS.UnityEngine.Collider
 NavMeshAgent= CS.UnityEngine.AI.NavMeshAgent
+Random = CS.UnityEngine.Random
 
 -- 图集对象类
 SpriteAtlas = CS.UnityEngine.U2D.SpriteAtlas

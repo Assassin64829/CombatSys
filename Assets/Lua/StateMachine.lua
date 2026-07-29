@@ -1,15 +1,12 @@
-StateMachine = {}
+Object:subClass("StateMachine")
 
 StateMachine.currentState = nil
 StateMachine.owner = nil -- EnemyController对象
 
 function StateMachine:new(owner)
-    local obj = {}
-    self.__index = self
-    setmetatable(obj, self)
+    local obj = StateMachine.base.new(self)
 
     obj.owner = owner
-    obj.currentState = nil
 
     return obj
 end

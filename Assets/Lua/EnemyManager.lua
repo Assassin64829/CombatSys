@@ -1,38 +1,18 @@
 EnemyManager = {}
 
--- 静态变量
-EnemyManager.Instance = nil
+-- cd重置范围
+EnemyManager.timeRangeBetweenAttacks = Vector2(1, 4)
 
--- 攻击间隔
-EnemyManager.timeRangeBetweenAttacks = {
-    x = 1,
-    y = 4
-}
+-- 范围内敌人（触发攻击状态的敌人）
+EnemyManager.enemiesInRange = {}
 
--- Unity引用
+-- 攻击冷却
+EnemyManager.notAttackingTimer = 2.0
+EnemyManager.timer = 0.0
+
 EnemyManager.player = nil
 
-
--- 初始化
-function EnemyManager:new()
-    local obj = {}
-
-    setmetatable(obj, self)
-    self.__index = self
-
-
-    obj.enemiesInRange = {}
-
-    obj.notAttackingTimer = 2
-    obj.timer = 0
-
-    EnemyManager.Instance = obj
-
-    return obj
-end
-
-
--- 添加敌人
+-- 添加敌人（进入范围）
 function EnemyManager:AddEnemyInRange(enemy)
 
     for _, e in ipairs(self.enemiesInRange) do
@@ -45,9 +25,7 @@ function EnemyManager:AddEnemyInRange(enemy)
 
 end
 
-
-
--- 删除敌人
+-- 删除敌人（离开范围）
 function EnemyManager:RemoveEnemyInRange(enemy)
 
     for i, e in ipairs(self.enemiesInRange) do
@@ -59,34 +37,31 @@ function EnemyManager:RemoveEnemyInRange(enemy)
 
     end
 
+    -- 玩家重新索敌离视线向量最近的敌人
+    if enemy == EnemyManager.player.targetEnemy then
 
-    if enemy == self.player.TargetEnemy then
-
-        self.player.TargetEnemy =
+        EnemyManager.player.targetEnemy =
             self:GetCloseEnemyToDirection(
-                self.player:GetTargetingDir()
+                EnemyManager.player:GetTargetingDir()
             )
 
     end
 
 end
 
-
-
--- Update
 function EnemyManager:Update()
 
+    -- 是否有攻击状态敌人
     if #self.enemiesInRange == 0 then
         return
     end
-
 
     -- 判断是否有敌人在攻击
     local hasAttack = false
 
     for _, enemy in ipairs(self.enemiesInRange) do
 
-        if enemy:IsInState(EnemyStates.Attack) then
+        if enemy:IsInState(EnemyState.Attack) then
             hasAttack = true
             break
         end
@@ -94,29 +69,23 @@ function EnemyManager:Update()
     end
 
 
-
+    -- 间歇派出敌人攻击
     if not hasAttack then
-
+        -- 敌人攻击CD
         if self.notAttackingTimer > 0 then
-
-            self.notAttackingTimer =
-                self.notAttackingTimer - CS.UnityEngine.Time.deltaTime
-
+            self.notAttackingTimer = self.notAttackingTimer - Time.deltaTime
         end
-
 
         if self.notAttackingTimer <= 0 then
 
             local enemy = self:SelectEnemyForAttack()
 
-
             if enemy ~= nil then
 
-                enemy:ChangeState(EnemyStates.Attack)
-
+                enemy:ChangeState(EnemyState.Attack)
 
                 self.notAttackingTimer =
-                    CS.UnityEngine.Random.Range(
+                    Random.Range(
                         self.timeRangeBetweenAttacks.x,
                         self.timeRangeBetweenAttacks.y
                     )
@@ -127,12 +96,8 @@ function EnemyManager:Update()
 
     end
 
-
-
-    -- 目标检测
-    self.timer = self.timer +
-        CS.UnityEngine.Time.deltaTime
-
+    -- 每0.1秒切换索敌距离视线向量最近敌人
+    self.timer = self.timer + Time.deltaTime
 
     if self.timer >= 0.1 then
 
@@ -158,7 +123,7 @@ end
 
 
 
--- 选择攻击敌人
+-- 最久未执行攻击的敌人
 function EnemyManager:SelectEnemyForAttack()
 
 
@@ -170,12 +135,12 @@ function EnemyManager:SelectEnemyForAttack()
 
 
         if enemy.Target ~= nil
-            and enemy:IsInState(EnemyStates.CombatMovement) then
+            and enemy:IsInState(EnemyState.CombatMovement) then
 
 
-            if enemy.CombatMovementTimer > maxTimer then
+            if enemy.combatMovementTimer > maxTimer then
 
-                maxTimer = enemy.CombatMovementTimer
+                maxTimer = enemy.combatMovementTimer
                 result = enemy
 
             end
@@ -185,25 +150,23 @@ function EnemyManager:SelectEnemyForAttack()
 
     end
 
-
     return result
 
 end
 
 
 
--- 获取正在攻击敌人
+-- 获取正在攻击的敌人
 function EnemyManager:GetAttackingEnemy()
 
 
     for _, enemy in ipairs(self.enemiesInRange) do
 
-        if enemy:IsInState(EnemyStates.Attack) then
+        if enemy:IsInState(EnemyState.Attack) then
             return enemy
         end
 
     end
-
 
     return nil
 
@@ -211,7 +174,7 @@ end
 
 
 
--- 获取方向最近敌人
+-- 获取视线方向最近敌人
 function EnemyManager:GetCloseEnemyToDirection(direction)
 
 
@@ -222,24 +185,12 @@ function EnemyManager:GetCloseEnemyToDirection(direction)
 
     for _, enemy in ipairs(self.enemiesInRange) do
 
-
-        local vec =
-            enemy.transform.position -
-            self.player.transform.position
-
-
+        local vec = enemy.transform.position - self.player.transform.position
         vec.y = 0
-
-
-        -- Vector3.Angle
-        local angle =
-            CS.UnityEngine.Vector3.Angle(
-                direction,
-                vec
-            )
-
+        local angle = Vector3.Angle(direction, vec)
 
         -- 点到方向线的距离
+        -- magnitude：向量长度
         local distance =
             vec.magnitude *
             math.sin(
@@ -254,9 +205,7 @@ function EnemyManager:GetCloseEnemyToDirection(direction)
 
         end
 
-
     end
-
 
     return closestEnemy
 

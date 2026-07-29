@@ -1,12 +1,4 @@
-EnemyController = {}
-
-EnemyState = {
-    Idle = "Idle",
-    CombatMovement = "CombatMovement",
-    Attack = "Attack",
-    RetreatAfterAttack = "RetreatAfterAttack",
-    GettingHitState = "GettingHitState",
-}
+Object:subClass("EnemyController")
 
 EnemyController.targetsInRange = {}
 EnemyController.stateDict = {}
@@ -22,24 +14,20 @@ EnemyController.stateMachine = nil
 EnemyController.prePos = nil
 EnemyController.combatMovementTimer = 0
 
--- 表需要再new中初始化
--- 值类型（number、string、boolean 等）没有"修改自身"的操作，改变它们只能通过重新赋值，因此会在实例上创建（或覆盖）字段
--- 而 table 是可变对象，既可以重新赋值，也可以直接修改内部内容，因此如果共享同一张表，就会影响所有实例
-
 function EnemyController:new()
-    --使用局部变量
-    local obj = {}
-    self.__index = self
-    setmetatable(obj,self)
+
+    local obj = EnemyController.base.new(self)
 
     obj.targetsInRange = {}
     obj.stateDict = {}
 
     return obj
+
 end
 
+
 function EnemyController:Start()
-    -- 状态由C#注入，用字典保存
+    -- 初始化 枚举-状态类 字典
     self.stateDict[EnemyState.Idle] = self.IdleState
     self.stateDict[EnemyState.CombatMovement] = self.CombatMovementState
     self.stateDict[EnemyState.Attack] = self.AttackState
@@ -53,15 +41,22 @@ function EnemyController:Start()
     -- 初始状态
     self.stateMachine = StateMachine:new(self)
     self.stateMachine:ChangeState(self.stateDict[EnemyState.Idle])
+
     self.prePos = self.transform.position
+
     -- 受击回调
-    self.MeeleFighter.OnGotHit:Add(function()
-        self:ChangeState(EnemyState.GettingHitState)
-    end)
+    table.insert(
+    self.MeeleFighter.OnGotHit,
+    function()
+        self:ChangeState(
+            EnemyState.GettingHitState
+        )
+    end
+)
 
 end
 
--- update主要配合navAgent处理动作播放
+-- 状态行为、动作适配Mav移动
 function EnemyController:Update()
 
     self.stateMachine:Execute()
@@ -117,6 +112,7 @@ function EnemyController:IsInState(state)
     return self.stateMachine.currentState == self.stateDict[state]
 end
 
+-- 从检测范围内目标中，找出位于fov视野范围内目标
 function EnemyController:FindTarget()
 
     for _, target in ipairs(self.targetsInRange) do

@@ -1,11 +1,4 @@
-MeeleFighter = {}
-
-AttackState = {
-    Idle = "Idle",
-    WindUp = "WindUp",
-    Impact = "Impact",
-    CoolDown = "CoolDown",
-}
+Object:subClass("MeeleFighter")
 
 -- 状态
 MeeleFighter.IsAction = false
@@ -16,17 +9,23 @@ MeeleFighter.animator = nil
 MeeleFighter.attackState = nil
 MeeleFighter.doCombo = false
 MeeleFighter.comboCount = 0.0
+MeeleFighter.rotationSpeed = 500.0
 
 
--- 面向对象
+-- 事件
+MeeleFighter.OnGotHit = {}
+MeeleFighter.OnHitComplete = {}
+
 function MeeleFighter:new()
-    --使用局部变量
-    local obj = {}
-    self.__index = self
-    setmetatable(obj,self)
-    return obj
-end
 
+    local obj = MeeleFighter.base.new(self)
+
+    obj.OnGotHit = {}
+    obj.OnHitComplete = {}
+
+    return obj
+
+end
 
 function MeeleFighter:Start()
     self.animator = self.gameObject:GetComponentInChildren(typeof(Animator))
@@ -51,11 +50,11 @@ function MeeleFighter:DisableAllHitbox()
 end
 
 -- 攻击协程
-function MeeleFighter:TryToAttack()
+function MeeleFighter:TryToAttack(attackDir)
     if not self.IsAction then
         -- 协程攻击逻辑
         LuaCoMgr.Start(function()
-            self:Attack()
+            self:Attack(attackDir)
         end)
     -- 激活连击
     elseif self.attackState == AttackState.Impact or self.attackState == AttackState.CoolDown then
@@ -63,7 +62,7 @@ function MeeleFighter:TryToAttack()
     end
 end
 -- 攻击
-function MeeleFighter:Attack()
+function MeeleFighter:Attack(attackDir)
     self.IsAction = true
     self.attackState = AttackState.WindUp
 
@@ -79,6 +78,11 @@ function MeeleFighter:Attack()
     while timer <= stateInfo.length do
         timer = timer + Time.deltaTime
         local progress = timer / stateInfo.length -- 计算动作进度
+
+        -- 攻击时面对对方
+        if attackDir ~= nil then
+            self.transform.rotation = Quaternion.RotateTowards(self.transform.rotation, Quaternion.LookRotation(attackDir), self.rotationSpeed);
+        end
 
         if self.attackState == AttackState.WindUp then
             if progress >= self.attacks[self.comboCount].ImpactStartTime then
@@ -134,7 +138,15 @@ function MeeleFighter:PlayHitReaction(attacker)
     self.animator:CrossFade("Impact", 0.2)
     LuaCoMgr.WaitForFrames(1)
     local stateInfo = self.animator:GetNextAnimatorStateInfo(1)
-    LuaCoMgr.WaitForSeconds(stateInfo.length)
+    LuaCoMgr.WaitForSeconds(stateInfo.length * 0.7) -- 连击状态提前结束
+
+    for _, func in ipairs(self.OnGotHit) do
+        func()
+    end
+    for _, func in ipairs(self.OnHitComplete) do
+        func()
+    end
+
     self.IsAction = false
 end
 
