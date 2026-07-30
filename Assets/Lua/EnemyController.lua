@@ -4,7 +4,7 @@ EnemyController.targetsInRange = {}
 EnemyController.stateDict = {}
 
 EnemyController.fov = 180
-EnemyController.target = nil
+EnemyController.target = nil -- 索敌目标MeeleFighter
 
 EnemyController.navAgent = nil
 EnemyController.animator = nil
@@ -46,13 +46,13 @@ function EnemyController:Start()
 
     -- 受击回调
     table.insert(
-    self.MeeleFighter.OnGotHit,
-    function()
-        self:ChangeState(
-            EnemyState.GettingHitState
-        )
-    end
-)
+        self.MeeleFighter.OnGotHit,
+        function()
+            self:ChangeState(
+                EnemyState.GettingHitState
+            )
+        end
+    )
 
 end
 

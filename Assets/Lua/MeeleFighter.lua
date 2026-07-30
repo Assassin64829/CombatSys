@@ -57,14 +57,14 @@ function MeeleFighter:TryToAttack(attackDir)
             self:Attack(attackDir)
         end)
     -- 激活连击
-    elseif self.attackState == AttackState.Impact or self.attackState == AttackState.CoolDown then
+    elseif self.attackState == AttackStates.Impact or self.attackState == AttackStates.CoolDown then
          self.doCombo = true
     end
 end
 -- 攻击
 function MeeleFighter:Attack(attackDir)
     self.IsAction = true
-    self.attackState = AttackState.WindUp
+    self.attackState = AttackStates.WindUp
 
     -- 根据连击层数执行不同攻击动作
     self.animator:CrossFade(self.attacks[self.comboCount].AnimName, 0.2)
@@ -84,17 +84,17 @@ function MeeleFighter:Attack(attackDir)
             self.transform.rotation = Quaternion.RotateTowards(self.transform.rotation, Quaternion.LookRotation(attackDir), self.rotationSpeed);
         end
 
-        if self.attackState == AttackState.WindUp then
+        if self.attackState == AttackStates.WindUp then
             if progress >= self.attacks[self.comboCount].ImpactStartTime then
-                self.attackState = AttackState.Impact
+                self.attackState = AttackStates.Impact
                 self:EnableHitbox()
             end
-        elseif self.attackState == AttackState.Impact then
+        elseif self.attackState == AttackStates.Impact then
             if progress >= self.attacks[self.comboCount].ImpactEndTime then
-                self.attackState = AttackState.CoolDown;
+                self.attackState = AttackStates.CoolDown;
                 self:DisableAllHitbox()
             end
-        elseif self.attackState == AttackState.CoolDown then
+        elseif self.attackState == AttackStates.CoolDown then
             if self.doCombo then
                 self.doCombo = false
                 self.comboCount = (self.comboCount + 1) % self.attacks.Count
@@ -112,7 +112,7 @@ function MeeleFighter:Attack(attackDir)
         LuaCoMgr.WaitForFrames(1)
     end
     -- 动作结束，状态重置
-    self.attackState = AttackState.Idle;
+    self.attackState = AttackStates.Idle;
     self.comboCount = 0.0
     self.IsAction = false
 end

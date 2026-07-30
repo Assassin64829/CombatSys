@@ -78,6 +78,17 @@ function Mgr.WaitForFrames(frames)
     coroutine.yield(obj) --在此处暂停, resume唤醒时将得到yield这边传的参数
 end
 
+function Mgr.WaitUntil(predicate)
+    local obj = {
+        flag = Need_Wait_Flag,
+        IsWait = function()
+            return not predicate()
+        end,
+    }
+
+    coroutine.yield(obj)
+end
+
 function Inner.IsNeedWait(yieldParam)
     if nil == yieldParam or "table" ~= type(yieldParam) then
         return nil

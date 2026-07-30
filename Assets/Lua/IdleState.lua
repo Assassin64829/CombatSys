@@ -5,6 +5,7 @@ IdleState.enemy = nil
 function IdleState:Enter(owner)
     self.base.Enter(self, owner)
     self.enemy = owner;
+    
     self.enemy.animator:SetBool("combatMode", false)
 end
 
