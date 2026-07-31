@@ -42,12 +42,13 @@ function EnemyManager:RemoveEnemyInRange(enemy)
     end
 
     -- 玩家重新索敌离视线向量最近的敌人
-    if enemy == EnemyManager.player.targetEnemy then
+    if enemy == self.player.targetEnemy then
 
-        EnemyManager.player.targetEnemy =
+        self.player:SetTargetEnemy(
             self:GetCloseEnemyToDirection(
                 EnemyManager.player:GetTargetingDir()
             )
+        )
 
     end
 
@@ -117,7 +118,7 @@ function EnemyManager:Update()
         if closestEnemy ~= nil
             and closestEnemy ~= self.player.targetEnemy then
 
-            self.player.targetEnemy = closestEnemy
+            self.player:SetTargetEnemy(closestEnemy)
 
         end
 
@@ -130,16 +131,13 @@ end
 -- 最久未执行攻击的敌人
 function EnemyManager:SelectEnemyForAttack()
 
-
     local result = nil
     local maxTimer = -math.huge
 
 
     for _, enemy in ipairs(self.enemiesInRange) do
 
-
-        if enemy.Target ~= nil
-            and enemy:IsInState(EnemyState.CombatMovement) then
+        if enemy.target ~= nil and enemy:IsInState(EnemyState.CombatMovement) then
 
 
             if enemy.combatMovementTimer > maxTimer then

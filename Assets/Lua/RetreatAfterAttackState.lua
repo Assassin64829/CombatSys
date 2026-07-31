@@ -19,7 +19,7 @@ function RetreatAfterAttackState:Execute()
 
     -- 后退逻辑
     local vecToTarget = self.enemy.target.transform.position - self.enemy.transform.position
-    self.enemy.NavAgent:Move(-vecToTarget.normalized * self.backwardWalkSpeed * Time.deltaTime)
+    self.enemy.navAgent:Move(-vecToTarget.normalized * self.backwardWalkSpeed * Time.deltaTime)
     vecToTarget.y = 0
     -- 保持看向敌人
     self.transform.rotation = Quaternion.RotateTowards(self.transform.rotation, Quaternion.LookRotation(vecToTarget), 500 * Time.deltaTime)

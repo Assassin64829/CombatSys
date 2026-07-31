@@ -44,7 +44,7 @@ function CombatMovementState:Execute()
 
         -- 随机行为
         if self.timer <= 0 then
-            if Random.Range(0, 2) == 0 then
+            if Random.Range(0, 2) < 1 then
                 self:StartIdle()
             else
                 self:StartCircling()
@@ -66,7 +66,7 @@ function CombatMovementState:Execute()
         -- nav自动寻路追逐
         self.enemy.navAgent:SetDestination(self.enemy.target.transform.position)
 
-    elseif self.state == AICombatStates.Chase then
+    elseif self.state == AICombatStates.Circling then
     
         -- 绕圈结束
         if self.timer <= 0 then
@@ -100,7 +100,14 @@ end
 
 function CombatMovementState:StartCircling()
     self.state = AICombatStates.Circling
+    self.enemy.navAgent:ResetPath() -- 防止敌人绕到障碍物后时，引发的抖动（Move和SetDestination对冲）
     self.timer = Random.Range(self.circlingTimeRange.x, self.circlingTimeRange.y)
+
+    if Random.Range(0, 2) < 1 then
+        self.circlingDir = 1
+    else
+        self.circlingDir = -1
+    end
 end
 
 function CombatMovementState:Exit()

@@ -1,7 +1,7 @@
 State:subClass("AttackState")
 
 AttackState.enemy = nil
-AttackState.attackDistance = 1.5 -- 执行攻击的距离
+AttackState.attackDistance = 2 -- 执行攻击的距离
 AttackState.isAttacking = false
 
 function AttackState:Enter(owner)
@@ -46,7 +46,7 @@ function AttackState:Attack(comboCount)
     for i = 1, comboCount - 1 do
 
         LuaCoMgr.WaitUntil(function()
-            return self.enemy.MeeleFighter.AttackState == AttackStates.CoolDown
+            return self.enemy.MeeleFighter.attackState == AttackStates.CoolDown
         end)
 
         self.enemy.MeeleFighter:TryToAttack()
@@ -54,7 +54,7 @@ function AttackState:Attack(comboCount)
     end
 
     LuaCoMgr.WaitUntil(function()
-        return self.enemy.MeeleFighter.AttackState == AttackStates.Idle
+        return self.enemy.MeeleFighter.attackState == AttackStates.Idle
     end)
 
     -- self.enemy.animator.applyRootMotion = false

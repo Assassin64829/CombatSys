@@ -62,29 +62,55 @@ function PlayerController:Update()
 
     -- 移动
     local move = moveDir * self.moveSpeed
+
+    if CombatController.combatMode then -- 战斗状态移动模式
+        move = move/4
+        local targetVec = CombatController.targetEnemy.transform.position - self.transform.position
+        targetVec.y = 0;
+        if moveAmount > 0 then
+            self.targetRotation = Quaternion.LookRotation(targetVec)
+            self.transform.rotation =
+            Quaternion.RotateTowards(
+                self.transform.rotation,
+                self.targetRotation,
+                self.rotationSpeed * Time.deltaTime
+            )
+        end
+        local forwardSpeed = Vector3.Dot(move, self.transform.forward); -- 向前分速度
+
+        self.animator:SetFloat("forwardSpeed", forwardSpeed / self.moveSpeed, 0.2, Time.deltaTime)
+
+        local angle = Vector3.SignedAngle(self.transform.forward, move, Vector3.up)
+        local strafeSpeed = Mathf.Sin(angle * Mathf.Deg2Rad)
+        self.animator:SetFloat("strafeSpeed", strafeSpeed, 0.2, Time.deltaTime)
+
+    else -- 常规移动模式
+
+        -- 平滑转向
+        if moveAmount > 0 then
+            self.targetRotation = Quaternion.LookRotation(moveDir)
+        end
+        self.transform.rotation =
+            Quaternion.RotateTowards(
+                self.transform.rotation,
+                self.targetRotation,
+                self.rotationSpeed
+                * Time.deltaTime
+            )
+
+        -- 动作
+        self.animator:SetFloat(
+            "forwardSpeed",
+            moveAmount,
+            0.2,
+            Time.deltaTime
+        )
+    end
+    
+    -- 执行移动
     move.y = self.ySpeed
     self.characterController:Move(
         move * Time.deltaTime
-    )
-
-    -- 平滑转向
-    if moveAmount > 0 then
-        self.targetRotation = Quaternion.LookRotation(moveDir)
-    end
-    self.transform.rotation =
-        Quaternion.RotateTowards(
-            self.transform.rotation,
-            self.targetRotation,
-            self.rotationSpeed
-            * Time.deltaTime
-        )
-
-    -- 动作
-    self.animator:SetFloat(
-        "forwardSpeed",
-        moveAmount,
-        0.2,
-        Time.deltaTime
     )
 
     
