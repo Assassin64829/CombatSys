@@ -1,4 +1,4 @@
-Object:subClass("CombatController")
+CombatController = {}
 
 CombatController.animator = nil
 CombatController.combatMode = false

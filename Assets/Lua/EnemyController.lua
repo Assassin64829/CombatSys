@@ -38,7 +38,7 @@ function EnemyController:Start()
     self.navAgent = self.gameObject:GetComponent(typeof(NavMeshAgent))
     self.animator = self.gameObject:GetComponentInChildren(typeof(Animator))
 
-    -- 初始状态
+    -- 初始化状态机、状态
     self.stateMachine = StateMachine:new(self)
     self.stateMachine:ChangeState(self.stateDict[EnemyState.Idle])
 
@@ -56,7 +56,7 @@ function EnemyController:Start()
 
 end
 
--- 状态行为、动作适配Mav移动
+-- 状态机控制行为、动作适配Nav移动
 function EnemyController:Update()
 
     self.stateMachine:Execute()

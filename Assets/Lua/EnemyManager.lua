@@ -12,6 +12,10 @@ EnemyManager.timer = 0.0
 
 EnemyManager.player = nil
 
+function EnemyManager:Start()
+    self.player = CombatController
+end
+
 -- 添加敌人（进入范围）
 function EnemyManager:AddEnemyInRange(enemy)
 
@@ -96,7 +100,7 @@ function EnemyManager:Update()
 
     end
 
-    -- 每0.1秒切换索敌距离视线向量最近敌人
+    -- 每0.1秒切换玩家索敌距离视线向量最近敌人
     self.timer = self.timer + Time.deltaTime
 
     if self.timer >= 0.1 then

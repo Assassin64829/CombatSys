@@ -6,7 +6,7 @@ AttackState.isAttacking = false
 
 function AttackState:Enter(owner)
     self.base.Enter(self, owner)
-    self.enemy = owner;
+    self.enemy = owner
 
     self.enemy.navAgent.stoppingDistance = self.attackDistance
 end
@@ -18,7 +18,7 @@ function AttackState:Execute()
        return 
     end
 
-    self.enemy.navAgent:SetDestination(self.enemy.target.transform.position);
+    self.enemy.navAgent:SetDestination(self.enemy.target.transform.position)
 
 
     if Vector3.Distance(self.enemy.target.transform.position, self.enemy.transform.position) <= self.attackDistance + 0.03 then
@@ -59,7 +59,7 @@ function AttackState:Attack(comboCount)
 
     -- self.enemy.animator.applyRootMotion = false
 
-    self.isAttacking = false;
+    self.isAttacking = false
 
     if self.enemy:IsInState(EnemyState.Attack) then
         self.enemy:ChangeState(EnemyState.RetreatAfterAttack)

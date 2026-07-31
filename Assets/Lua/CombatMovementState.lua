@@ -8,7 +8,7 @@ CombatMovementState.timer = 0.0 -- 倒计时计时器
 CombatMovementState.idleTimeRange = Vector2(2, 5) -- Idle持续时间随机数
 CombatMovementState.circlingTimeRange = Vector2(3, 6) -- Circling持续时间随机数
 CombatMovementState.circlingDir = 1 -- 绕圈方向-左右
-CombatMovementState.circlingSpeed = Vector2(3, 6) -- 绕圈速度
+CombatMovementState.circlingSpeed = 20.0 -- 绕圈速度
 
 function CombatMovementState:Enter(owner)
     self.base.Enter(self, owner)
