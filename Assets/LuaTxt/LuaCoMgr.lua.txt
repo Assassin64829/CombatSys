@@ -78,6 +78,17 @@ function Mgr.WaitForFrames(frames)
     coroutine.yield(obj) --在此处暂停, resume唤醒时将得到yield这边传的参数
 end
 
+function Mgr.WaitUntil(predicate)
+    local obj = {
+        flag = Need_Wait_Flag,
+        IsWait = function()
+            return not predicate()
+        end,
+    }
+
+    coroutine.yield(obj)
+end
+
 function Inner.IsNeedWait(yieldParam)
     if nil == yieldParam or "table" ~= type(yieldParam) then
         return nil
@@ -106,7 +117,7 @@ function Inner.ResumeCo(i, coCtxt)
         table.remove(m_RunningCos, i)
     else
         if "dead" == coroutine.status(coCtxt.co) then
-            print("co finish: id:"..coCtxt.id)
+            -- print("co finish: id:"..coCtxt.id)
             table.remove(m_RunningCos, i)
         else
             coCtxt.IsWait = Inner.IsNeedWait(yieldParam) --resume后可能还要wait
@@ -128,7 +139,7 @@ function Mgr.OnUpdate()
                 --wait
                 local deltaTime = curTime - coCtxt.lastResumeTime
                 if deltaTime >= 30 then
-                    print("!!!!!! co wait too long: id:"..coCtxt.coId..", time:"..deltaTime)
+                    print("!!!!!! co wait too long: id:"..coCtxt.id..", time:"..deltaTime)
                 end
             else
                 coCtxt.lastResumeTime = curTime

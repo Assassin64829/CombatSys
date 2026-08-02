@@ -13,8 +13,8 @@ MeeleFighter.rotationSpeed = 500.0
 
 
 -- 事件
-MeeleFighter.OnGotHit = {}
-MeeleFighter.OnHitComplete = {}
+MeeleFighter.OnGotHit = {} -- 敌人切换受击状态（进入僵直）
+MeeleFighter.OnHitComplete = {}  -- 敌人切换移动状态（脱离僵直）
 
 function MeeleFighter:new()
 

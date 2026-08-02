@@ -1,30 +1,42 @@
 ManifestFileVersion: 0
-CRC: 3654255554
+CRC: 3986848834
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 46515108417aff36de12fbe3c13ed2da
+    Hash: 3958005be4d981e66d4c604a408abf5e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 46515108417aff36de12fbe3c13ed2da
+    Hash: 3958005be4d981e66d4c604a408abf5e
 HashAppended: 0
 ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/LuaTxt/JsonUtility.lua.txt
 - Assets/LuaTxt/CombatController.lua.txt
+- Assets/LuaTxt/EnemyState.lua.txt
+- Assets/LuaTxt/EnemyManager.lua.txt
+- Assets/LuaTxt/StateMachine.lua.txt
+- Assets/LuaTxt/IdleState.lua.txt
 - Assets/LuaTxt/InitClass.lua.txt
+- Assets/LuaTxt/RetreatAfterAttackState.lua.txt
 - Assets/LuaTxt/BasePanel.lua.txt
+- Assets/LuaTxt/CombatMovementState.lua.txt
+- Assets/LuaTxt/GettingHitState.lua.txt
+- Assets/LuaTxt/EnemyController.lua.txt
+- Assets/LuaTxt/AttackStates.lua.txt
 - Assets/LuaTxt/PlayerController.lua.txt
 - Assets/LuaTxt/Main.lua.txt
+- Assets/LuaTxt/AICombatStates.lua.txt
 - Assets/LuaTxt/CameraController.lua.txt
 - Assets/LuaTxt/Object.lua.txt
-- Assets/LuaTxt/LuaCoMgr.lua.txt
+- Assets/LuaTxt/AttackState.lua.txt
+- Assets/LuaTxt/State.lua.txt
 - Assets/LuaTxt/MeeleFighter.lua.txt
 - Assets/LuaTxt/SplitTools.lua.txt
+- Assets/LuaTxt/LuaCoMgr.lua.txt
+- Assets/LuaTxt/VisionSensor.lua.txt
 Dependencies: []

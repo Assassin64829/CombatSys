@@ -2,10 +2,17 @@
 require("Base.Object") -- lua面向对象实现
 require("Base.SplitTools") -- 字符串分割方法
 require("Base.LuaCoMgr") -- 封装协程
-Json = require("Base.JsonUtility") -- Json数据持久化
+require("Base.StateMachine") -- 状态机类
+require("Base.State") -- 状态基类
+
+require("Enum.AttackStates") -- Player状态枚举
+require("Enum.EnemyState") -- 敌人状态枚举
+require("Enum.AICombatStates") -- 敌人攻击状态模式枚举
 
 -- 脚本
 ABMgr = CS.ABMgr.GetInstance()
+
+Int = CS.System.Int32
 
 -- Unity相关
 GameObject = CS.UnityEngine.GameObject
@@ -25,6 +32,9 @@ LayerMask = CS.UnityEngine.LayerMask
 CharacterController = CS.UnityEngine.CharacterController
 Animator = CS.UnityEngine.Animator
 Camera = CS.UnityEngine.Camera
+Collider = CS.UnityEngine.Collider
+NavMeshAgent= CS.UnityEngine.AI.NavMeshAgent
+Random = CS.UnityEngine.Random
 
 -- 图集对象类
 SpriteAtlas = CS.UnityEngine.U2D.SpriteAtlas

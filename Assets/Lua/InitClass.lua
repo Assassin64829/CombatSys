@@ -2,12 +2,12 @@
 require("Base.Object") -- lua面向对象实现
 require("Base.SplitTools") -- 字符串分割方法
 require("Base.LuaCoMgr") -- 封装协程
-Json = require("Base.JsonUtility") -- Json数据持久化
-require("StateMachine") -- 状态机类
-require("AttackStates") -- Player状态枚举
-require("EnemyState") -- 敌人状态枚举
-require("State") -- 敌人状态枚举
-require("AICombatStates") -- 敌人攻击状态模式枚举
+require("Base.StateMachine") -- 状态机类
+require("Base.State") -- 状态基类
+
+require("Enum.AttackStates") -- Player状态枚举
+require("Enum.EnemyState") -- 敌人状态枚举
+require("Enum.AICombatStates") -- 敌人攻击状态模式枚举
 
 -- 脚本
 ABMgr = CS.ABMgr.GetInstance()
