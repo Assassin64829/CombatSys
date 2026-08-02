@@ -3,6 +3,8 @@ State:subClass("GettingHitState")
 GettingHitState.enemy = nil
 GettingHitState.stunnTime = 1.5 -- 角色攻击结束后，脱离受击状态的时间
 
+GettingHitState.name = "GettingHitState"
+
 function GettingHitState:Enter(owner)
     self.base.Enter(self, owner)
     self.enemy = owner;

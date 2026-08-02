@@ -2,6 +2,8 @@ State:subClass("IdleState")
 
 IdleState.enemy = nil
 
+IdleState.name = "IdleState"
+
 function IdleState:Enter(owner)
     self.base.Enter(self, owner)
     self.enemy = owner;

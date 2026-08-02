@@ -1,7 +1,7 @@
 State:subClass("CombatMovementState")
 
 CombatMovementState.enemy = nil
-CombatMovementState.distanceToStand = 3.0 -- 停止追逐距离
+CombatMovementState.distanceToStand = 5.0 -- 停止追逐距离
 CombatMovementState.state = nil -- AICombatStates
 CombatMovementState.adjustDistanceThreshold = 1.0 -- 开始追逐额外距离
 CombatMovementState.timer = 0.0 -- 倒计时计时器
@@ -9,6 +9,8 @@ CombatMovementState.idleTimeRange = Vector2(2, 5) -- Idle持续时间随机数
 CombatMovementState.circlingTimeRange = Vector2(3, 6) -- Circling持续时间随机数
 CombatMovementState.circlingDir = 1 -- 绕圈方向-左右
 CombatMovementState.circlingSpeed = 20.0 -- 绕圈速度
+
+CombatMovementState.name = "CombatMovementState"
 
 function CombatMovementState:Enter(owner)
     self.base.Enter(self, owner)

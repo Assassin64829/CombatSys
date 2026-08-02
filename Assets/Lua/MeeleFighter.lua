@@ -52,18 +52,25 @@ end
 -- 攻击协程
 function MeeleFighter:TryToAttack(attackDir)
     if not self.IsAction then
+        self.IsAction = true
         -- 协程攻击逻辑
         LuaCoMgr.Start(function()
             self:Attack(attackDir)
         end)
+        return true
+
     -- 激活连击
     elseif self.attackState == AttackStates.Impact or self.attackState == AttackStates.CoolDown then
          self.doCombo = true
+
+         return false
     end
+
+    return false
 end
 -- 攻击
 function MeeleFighter:Attack(attackDir)
-    self.IsAction = true
+    -- self.IsAction = true
     self.attackState = AttackStates.WindUp
 
     -- 根据连击层数执行不同攻击动作
@@ -114,12 +121,14 @@ function MeeleFighter:Attack(attackDir)
     -- 动作结束，状态重置
     self.attackState = AttackStates.Idle;
     self.comboCount = 0.0
+
     self.IsAction = false
 end
 
 -- 受击协程
 function MeeleFighter:OnTriggerEnter(other)
     if other.tag == "Hitbox" and not self.IsAction then
+        self.IsAction = true
         -- 协程受击逻辑
         LuaCoMgr.Start(function()
             self:PlayHitReaction(other:GetComponentInParent(typeof(CS.LuaBehaviour)).transform)
@@ -128,7 +137,7 @@ function MeeleFighter:OnTriggerEnter(other)
 end
 -- 受击
 function MeeleFighter:PlayHitReaction(attacker)
-    self.IsAction = true
+    -- self.IsAction = true
 
     -- 转向
     local dispVec = attacker.position - self.transform.position

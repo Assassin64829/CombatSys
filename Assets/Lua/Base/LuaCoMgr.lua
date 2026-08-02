@@ -139,7 +139,7 @@ function Mgr.OnUpdate()
                 --wait
                 local deltaTime = curTime - coCtxt.lastResumeTime
                 if deltaTime >= 30 then
-                    print("!!!!!! co wait too long: id:"..coCtxt.coId..", time:"..deltaTime)
+                    print("!!!!!! co wait too long: id:"..coCtxt.id..", time:"..deltaTime)
                 end
             else
                 coCtxt.lastResumeTime = curTime

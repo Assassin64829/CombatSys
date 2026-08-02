@@ -12,6 +12,8 @@ require("AICombatStates") -- 敌人攻击状态模式枚举
 -- 脚本
 ABMgr = CS.ABMgr.GetInstance()
 
+Int = CS.System.Int32
+
 -- Unity相关
 GameObject = CS.UnityEngine.GameObject
 Resources = CS.UnityEngine.Resources

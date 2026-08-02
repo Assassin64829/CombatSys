@@ -1,8 +1,10 @@
 State:subClass("AttackState")
 
 AttackState.enemy = nil
-AttackState.attackDistance = 2 -- 执行攻击的距离
+AttackState.attackDistance = 2.5 -- 执行攻击的距离
 AttackState.isAttacking = false
+
+AttackState.name = "AttackState"
 
 function AttackState:Enter(owner)
     self.base.Enter(self, owner)
@@ -20,10 +22,10 @@ function AttackState:Execute()
 
     self.enemy.navAgent:SetDestination(self.enemy.target.transform.position)
 
-
     if Vector3.Distance(self.enemy.target.transform.position, self.enemy.transform.position) <= self.attackDistance + 0.03 then
         LuaCoMgr.Start(function()
-            self:Attack(Random.Range(0, self.enemy.MeeleFighter.attacks.Count + 1))
+            self:Attack(math.random(0, self.enemy.MeeleFighter.attacks.Count))
+            
         end)
     end
 end
@@ -38,7 +40,12 @@ function AttackState:Attack(comboCount)
     comboCount = comboCount or 1 -- 默认值1
 
     -- self.enemy.animator.applyRootMotion = true
-    self.enemy.MeeleFighter:TryToAttack()
+    local access = self.enemy.MeeleFighter:TryToAttack()
+
+    if not access then
+        -- print("攻击被打断")
+        return
+    end
 
     LuaCoMgr.WaitForFrames(1)
     self.isAttacking = true
@@ -46,7 +53,7 @@ function AttackState:Attack(comboCount)
     for i = 1, comboCount - 1 do
 
         LuaCoMgr.WaitUntil(function()
-            return self.enemy.MeeleFighter.attackState == AttackStates.CoolDown
+            return self.enemy.MeeleFighter.attackState == AttackStates.Impact
         end)
 
         self.enemy.MeeleFighter:TryToAttack()

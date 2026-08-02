@@ -5,7 +5,7 @@ CameraController.bodyHeight = 1.5
 CameraController.distance = 5.0
 
 -- 俯仰角
-CameraController.minVerticalAngle = -30.0
+CameraController.minVerticalAngle = -15.0
 CameraController.maxVerticalAngle = 45.0
 
 -- 旋转

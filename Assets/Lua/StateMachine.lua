@@ -25,6 +25,7 @@ end
 
 function StateMachine:Execute()
     if self.currentState then
+        -- print(self.currentState.name)
         self.currentState:Execute()
     end
 end

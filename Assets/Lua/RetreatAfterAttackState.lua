@@ -1,8 +1,10 @@
 State:subClass("RetreatAfterAttackState")
 
 RetreatAfterAttackState.enemy = nil
-RetreatAfterAttackState.backwardWalkSpeed = 1.5 -- 后退速度
-RetreatAfterAttackState.distanceToRetreat = 3 -- 停止后退距离
+RetreatAfterAttackState.backwardWalkSpeed = 1 -- 后退速度
+RetreatAfterAttackState.distanceToRetreat = 5 -- 停止后退距离
+
+RetreatAfterAttackState.name = "RetreatAfterAttackState"
 
 function RetreatAfterAttackState:Enter(owner)
     self.base.Enter(self, owner)
